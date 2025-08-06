@@ -1,0 +1,2008 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bar Slots Pro 🎰</title>
+    <style>
+        :root {
+            --primary-gold: #d4af37;
+            --primary-orange: #ff6b35;
+            --primary-blue: #4a90e2;
+            --bg-dark: #0d0d0d;
+            --bg-medium: #1a1a1a;
+            --bg-light: #2d1810;
+            --text-light: #ffffff;
+            --text-gold: #d4af37;
+            --text-green: #28a745;
+            --border-gold: rgba(212, 175, 55, 0.3);
+            --shadow-main: 0 25px 50px rgba(0, 0, 0, 0.6);
+            --border-radius-main: 25px;
+            --border-radius-small: 15px;
+            --transition-main: all 0.3s ease;
+            --coin-color: #f4a261;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(255, 107, 53, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
+                linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-medium) 25%, var(--bg-light) 50%, var(--bg-medium) 75%, var(--bg-dark) 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            color: var(--text-light);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            position: relative;
+        }
+
+        .neon-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .neon-circle {
+            position: absolute;
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .neon-circle:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.1), transparent);
+            top: 15%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .neon-circle:nth-child(2) {
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(255, 107, 53, 0.1), transparent);
+            top: 70%;
+            right: 10%;
+            animation-delay: -2s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-15px) scale(1.05); }
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 8px 15px;
+            z-index: 100;
+            border-bottom: 2px solid var(--border-gold);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .language-selector {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .lang-btn {
+            padding: 4px 8px;
+            background: rgba(212, 175, 55, 0.2);
+            border: 2px solid var(--border-gold);
+            border-radius: 12px;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: var(--transition-main);
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 0.7rem;
+        }
+
+        .lang-btn:hover,
+        .lang-btn.active {
+            background: var(--primary-gold);
+            color: var(--bg-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 3px 10px rgba(212, 175, 55, 0.4);
+        }
+
+        .wallet-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 6px 12px;
+            border-radius: 15px;
+            border: 2px solid var(--coin-color);
+        }
+
+        .coin-balance {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: bold;
+            color: var(--coin-color);
+            font-size: 0.9rem;
+        }
+
+        .owl-coin {
+            width: 20px;
+            height: 20px;
+            background: var(--coin-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            animation: coinSpin 3s linear infinite;
+        }
+
+        @keyframes coinSpin {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(360deg); }
+        }
+
+        .buy-coins-btn {
+            padding: 4px 10px;
+            background: var(--primary-blue);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            transition: var(--transition-main);
+            font-size: 0.7rem;
+        }
+
+        .buy-coins-btn:hover {
+            background: #357abd;
+            transform: translateY(-1px);
+        }
+
+        .main-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            width: 100%;
+            max-width: 500px;
+            margin-top: 60px;
+            margin-bottom: 50px;
+            padding: 10px;
+            overflow-y: auto;
+        }
+
+        .free-spins-banner {
+            width: 100%;
+            background: linear-gradient(45deg, var(--primary-gold), var(--primary-orange));
+            padding: 10px 15px;
+            border-radius: var(--border-radius-small);
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: bold;
+            color: white;
+            font-size: 0.9rem;
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .social-bonuses {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid var(--border-gold);
+            border-radius: var(--border-radius-small);
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .social-title {
+            text-align: center;
+            color: var(--text-gold);
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+
+        .social-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .social-btn {
+            flex: 1;
+            padding: 8px 12px;
+            background: rgba(212, 175, 55, 0.2);
+            border: 2px solid var(--border-gold);
+            border-radius: 10px;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: var(--transition-main);
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-align: center;
+            min-width: 120px;
+        }
+
+        .social-btn:hover:not(.claimed) {
+            background: var(--primary-gold);
+            color: var(--bg-dark);
+            transform: translateY(-2px);
+        }
+
+        .social-btn.claimed {
+            background: var(--text-green);
+            border-color: var(--text-green);
+            cursor: not-allowed;
+        }
+
+        .game-container {
+            background: 
+                linear-gradient(145deg, var(--bg-light), var(--bg-medium)),
+                radial-gradient(circle at center, rgba(212, 175, 55, 0.05) 0%, transparent 70%);
+            border-radius: var(--border-radius-main);
+            padding: 20px 15px;
+            box-shadow: 
+                var(--shadow-main),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.5);
+            border: 3px solid transparent;
+            background-clip: padding-box;
+            position: relative;
+            width: 100%;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .game-container::before {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            background: linear-gradient(45deg, var(--primary-gold), var(--primary-orange), var(--primary-gold));
+            border-radius: var(--border-radius-main);
+            z-index: -1;
+            animation: borderGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes borderGlow {
+            0% { opacity: 0.5; }
+            100% { opacity: 0.8; }
+        }
+
+        .game-title {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #ffd700, var(--primary-orange), var(--primary-gold));
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: titleGlow 3s ease-in-out infinite;
+            font-weight: bold;
+            letter-spacing: 1px;
+            line-height: 1.2;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { 
+                background-position: 0% 50%;
+                filter: drop-shadow(0 0 8px #ffd700);
+            }
+            50% { 
+                background-position: 100% 50%;
+                filter: drop-shadow(0 0 20px var(--primary-orange));
+            }
+        }
+
+        .subtitle {
+            color: var(--primary-orange);
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            text-shadow: 0 0 8px rgba(255, 107, 53, 0.5);
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .bet-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 15px 0;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: var(--border-radius-small);
+            border: 2px solid var(--border-gold);
+        }
+
+        .bet-label {
+            font-weight: bold;
+            color: var(--text-gold);
+            font-size: 1rem;
+            text-align: center;
+        }
+
+        .bet-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+
+        .bet-option {
+            padding: 8px 12px;
+            background: rgba(212, 175, 55, 0.2);
+            border: 2px solid var(--border-gold);
+            border-radius: 15px;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: var(--transition-main);
+            font-weight: 600;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            font-size: 0.8rem;
+        }
+
+        .bet-option:hover,
+        .bet-option.active {
+            background: var(--primary-gold);
+            color: var(--bg-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+        }
+
+        .bet-multiplier {
+            font-size: 0.7em;
+            opacity: 0.8;
+        }
+
+        .menu-showcase {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin: 20px 0;
+            padding: 15px;
+            background: 
+                linear-gradient(145deg, rgba(0, 0, 0, 0.4), rgba(26, 26, 26, 0.6)),
+                radial-gradient(circle at center, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+            border-radius: var(--border-radius-small);
+            border: 2px solid var(--border-gold);
+            box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .menu-item {
+            font-size: 1.5rem;
+            padding: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            transition: var(--transition-main);
+            cursor: help;
+            position: relative;
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .menu-item:hover {
+            transform: scale(1.1);
+            background: rgba(212, 175, 55, 0.2);
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+        }
+
+        .menu-item:hover::after {
+            content: attr(data-name);
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: var(--text-light);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.6rem;
+            white-space: nowrap;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .slots-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 25px 0;
+            padding: 20px;
+            background: 
+                linear-gradient(145deg, var(--bg-medium), var(--bg-light)),
+                radial-gradient(circle at center, rgba(255, 107, 53, 0.1) 0%, transparent 50%);
+            border-radius: 20px;
+            border: 3px solid transparent;
+            background-clip: padding-box;
+            position: relative;
+            box-shadow: 
+                inset 0 6px 12px rgba(0, 0, 0, 0.6),
+                0 0 30px rgba(255, 107, 53, 0.2);
+        }
+
+        .slots-container::before {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            background: linear-gradient(45deg, var(--primary-orange), var(--primary-gold), var(--primary-orange));
+            border-radius: 20px;
+            z-index: -1;
+            animation: slotBorderGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes slotBorderGlow {
+            0% { opacity: 0.5; }
+            100% { opacity: 0.8; }
+        }
+
+        .slot-reel {
+            width: 70px;
+            height: 70px;
+            background: radial-gradient(circle at center, #000 30%, var(--bg-medium) 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            border: 3px solid var(--primary-gold);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 
+                inset 0 4px 8px rgba(0, 0, 0, 0.8),
+                0 0 20px rgba(212, 175, 55, 0.3);
+            transition: var(--transition-main);
+        }
+
+        .slot-reel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .slot-reel.spinning {
+            animation: spinReel 0.1s linear infinite;
+            border-color: var(--primary-orange);
+            box-shadow: 
+                inset 0 4px 8px rgba(0, 0, 0, 0.8),
+                0 0 25px rgba(255, 107, 53, 0.5);
+        }
+
+        .slot-reel.winner {
+            animation: winnerPulse 0.6s ease-in-out 4;
+            border-color: #ffd700;
+            background: radial-gradient(circle at center, var(--bg-medium) 30%, #2a2200 100%);
+            box-shadow: 
+                inset 0 4px 8px rgba(0, 0, 0, 0.8),
+                0 0 30px rgba(255, 215, 0, 0.8),
+                0 0 50px rgba(255, 215, 0, 0.4);
+        }
+
+        @keyframes spinReel {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(360deg); }
+        }
+
+        @keyframes winnerPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        .controls {
+            margin: 20px 0;
+        }
+
+        .spin-button {
+            background: linear-gradient(145deg, var(--primary-orange), var(--primary-gold), var(--primary-orange));
+            background-size: 200% 200%;
+            border: none;
+            border-radius: 50px;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: var(--transition-main);
+            box-shadow: 
+                0 6px 20px rgba(255, 107, 53, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .spin-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .spin-button:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 
+                0 8px 25px rgba(255, 107, 53, 0.6),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            background-position: 100% 50%;
+        }
+
+        .spin-button:hover:not(:disabled)::before {
+            left: 100%;
+        }
+
+        .spin-button:active {
+            transform: translateY(0);
+        }
+
+        .spin-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .info-panel {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+            padding: 15px;
+            background: linear-gradient(145deg, rgba(0, 0, 0, 0.4), rgba(26, 26, 26, 0.6));
+            border-radius: var(--border-radius-small);
+            border: 2px solid var(--border-gold);
+            box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .info-item {
+            text-align: center;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            border: 1px solid var(--border-gold);
+            transition: var(--transition-main);
+        }
+
+        .info-item:hover {
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .info-label {
+            font-size: 0.7rem;
+            color: var(--text-gold);
+            margin-bottom: 5px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .info-value {
+            font-size: 1rem;
+            font-weight: bold;
+            color: var(--text-light);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .message {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: var(--border-radius-small);
+            font-weight: bold;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-main);
+            font-size: 0.9rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            line-height: 1.4;
+        }
+
+        .message::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .message.win {
+            background: linear-gradient(135deg, #28a745, #20c997, #28a745);
+            color: var(--text-light);
+            animation: celebration 0.8s ease-in-out;
+            box-shadow: 
+                0 0 30px rgba(40, 167, 69, 0.6),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            border: 2px solid #20c997;
+        }
+
+        .message.win::before {
+            left: 100%;
+        }
+
+        .message.lose {
+            background: linear-gradient(135deg, #6c757d, #495057);
+            color: var(--text-light);
+            border: 2px solid #6c757d;
+        }
+
+        .message.info {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(255, 107, 53, 0.2));
+            color: var(--text-light);
+            border: 2px solid var(--border-gold);
+        }
+
+        @keyframes celebration {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            25% { transform: scale(1.05) rotate(1deg); }
+            75% { transform: scale(1.05) rotate(-1deg); }
+        }
+
+        .purchase-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .purchase-content {
+            background: 
+                linear-gradient(145deg, var(--bg-light), var(--bg-medium)),
+                radial-gradient(circle at center, rgba(212, 175, 55, 0.05) 0%, transparent 70%);
+            padding: 20px;
+            border-radius: var(--border-radius-main);
+            text-align: center;
+            color: var(--text-light);
+            box-shadow: var(--shadow-main);
+            border: 3px solid var(--primary-gold);
+            max-width: 90vw;
+            max-height: 90vh;
+            overflow-y: auto;
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .purchase-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--primary-gold);
+            font-weight: bold;
+        }
+
+        .coin-packages {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin: 15px 0;
+        }
+
+        .coin-package {
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid var(--border-gold);
+            border-radius: var(--border-radius-small);
+            cursor: pointer;
+            transition: var(--transition-main);
+            position: relative;
+        }
+
+        .coin-package:hover,
+        .coin-package.selected {
+            border-color: var(--primary-gold);
+            background: rgba(212, 175, 55, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
+        }
+
+        .coin-package.popular {
+            border-color: var(--primary-orange);
+            position: relative;
+        }
+
+        .coin-package.popular::before {
+            content: 'POPULAR';
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary-orange);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 10px;
+            font-size: 0.6rem;
+            font-weight: bold;
+        }
+
+        .package-coins {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--coin-color);
+            margin-bottom: 8px;
+        }
+
+        .package-price {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--text-green);
+            margin-bottom: 8px;
+        }
+
+        .package-bonus {
+            font-size: 0.8rem;
+            color: var(--primary-orange);
+            font-weight: 600;
+        }
+
+        .payment-form {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: var(--border-radius-small);
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+            text-align: left;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 4px;
+            color: var(--text-gold);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid var(--border-gold);
+            border-radius: 10px;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            transition: var(--transition-main);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 10px;
+        }
+
+        .payment-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition-main);
+            font-size: 0.9rem;
+            flex: 1;
+            min-width: 100px;
+        }
+
+        .btn-primary {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #357abd;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: rgba(108, 117, 125, 0.5);
+            color: var(--text-light);
+            border: 2px solid #6c757d;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(108, 117, 125, 0.8);
+        }
+
+        .prize-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+            padding: 20px;
+        }
+
+        .prize-content {
+            background: 
+                linear-gradient(145deg, var(--primary-gold), #ffd700),
+                radial-gradient(circle at center, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            padding: 30px 20px;
+            border-radius: var(--border-radius-main);
+            text-align: center;
+            color: var(--bg-dark);
+            box-shadow: 
+                0 30px 60px rgba(0, 0, 0, 0.6),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            animation: prizeAppear 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            border: 3px solid var(--primary-orange);
+            max-width: 90vw;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        @keyframes prizeAppear {
+            from { 
+                transform: scale(0.3) rotate(-10deg); 
+                opacity: 0; 
+            }
+            to { 
+                transform: scale(1) rotate(0deg); 
+                opacity: 1; 
+            }
+        }
+
+        .prize-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .prize-title {
+            font-size: 1.8rem;
+            margin-bottom: 12px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            font-weight: bold;
+        }
+
+        .prize-text {
+            font-size: 1rem;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .coupon-code {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 12px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .close-popup {
+            margin-top: 15px;
+            padding: 12px 25px;
+            background: linear-gradient(145deg, var(--primary-orange), var(--primary-gold));
+            border: none;
+            border-radius: 20px;
+            color: var(--text-light);
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: var(--transition-main);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .close-popup:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+        }
+
+        .confetti {
+            position: fixed;
+            top: -10px;
+            animation: confettiFall 4s linear forwards;
+            pointer-events: none;
+            z-index: 999;
+            font-size: 16px;
+        }
+
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 8px 15px;
+            text-align: center;
+            border-top: 2px solid var(--border-gold);
+            z-index: 100;
+        }
+
+        .footer-text {
+            font-size: 0.8rem;
+            color: var(--text-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .heart-icon {
+            color: #ff6b6b;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* Mobile Portrait (9:16 ratio) */
+        @media (max-width: 480px) and (orientation: portrait) {
+            .main-container {
+                margin-top: 70px;
+                margin-bottom: 40px;
+                padding: 5px;
+                max-height: calc(100vh - 110px);
+            }
+            
+            .header {
+                padding: 6px 10px;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 6px;
+            }
+            
+            .wallet-info {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .game-container {
+                padding: 15px 10px;
+            }
+            
+            .game-title {
+                font-size: 1.5rem;
+            }
+            
+            .subtitle {
+                font-size: 0.8rem;
+            }
+            
+            .menu-showcase {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 6px;
+                padding: 12px;
+            }
+            
+            .menu-item {
+                font-size: 1.3rem;
+                padding: 6px;
+            }
+            
+            .slots-container {
+                gap: 10px;
+                padding: 15px;
+            }
+            
+            .slot-reel {
+                width: 60px;
+                height: 60px;
+                font-size: 2rem;
+            }
+            
+            .bet-options {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 6px;
+            }
+            
+            .spin-button {
+                padding: 12px 30px;
+                font-size: 1rem;
+            }
+            
+            .info-panel {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
+                padding: 12px;
+            }
+            
+            .info-item {
+                padding: 8px 4px;
+            }
+            
+            .info-label {
+                font-size: 0.6rem;
+            }
+            
+            .info-value {
+                font-size: 0.9rem;
+            }
+            
+            .social-bonuses {
+                padding: 12px;
+            }
+            
+            .social-buttons {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .social-btn {
+                min-width: auto;
+            }
+            
+            .free-spins-banner {
+                padding: 8px 12px;
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Desktop */
+        @media (min-width: 1024px) {
+            .main-container {
+                max-width: 600px;
+            }
+
+            .menu-showcase {
+                grid-template-columns: repeat(7, 1fr);
+            }
+
+            .info-panel {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .coin-packages {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .bet-options {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            
+            .social-buttons {
+                flex-direction: row;
+            }
+        }
+
+        /* Tablet */
+        @media (min-width: 768px) and (max-width: 1023px) {
+            .coin-packages {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .bet-options {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        /* Landscape mobile */
+        @media (max-width: 768px) and (orientation: landscape) {
+            .main-container {
+                margin-top: 60px;
+                margin-bottom: 35px;
+            }
+            
+            .game-container {
+                padding: 15px;
+            }
+            
+            .slots-container {
+                margin: 20px 0;
+            }
+        }
+
+        /* Print styles */
+        @media print {
+            .header, .footer, .neon-bg, .purchase-modal {
+                display: none !important;
+            }
+            
+            body {
+                background: white !important;
+                color: black !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="neon-bg">
+        <div class="neon-circle"></div>
+        <div class="neon-circle"></div>
+    </div>
+
+    <header class="header">
+        <div class="header-content">
+            <nav class="language-selector">
+                <a href="#" class="lang-btn active" data-lang="en">🇺🇸 EN</a>
+                <a href="#" class="lang-btn" data-lang="ru">🇷🇺 RU</a>
+                <a href="#" class="lang-btn" data-lang="ka">🇬🇪 KA</a>
+            </nav>
+            <div class="wallet-info">
+                <div class="coin-balance">
+                    <div class="owl-coin">🦉</div>
+                    <span id="coinBalance" data-translate="coin-balance">3</span>
+                </div>
+                <button class="buy-coins-btn" onclick="showPurchaseModal()" data-translate="buy-coins">
+                    Buy Coins
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <div class="free-spins-banner" data-translate="free-spins">
+            🎁 First 3 spins are FREE! Start playing now!
+        </div>
+
+        <div class="social-bonuses">
+            <div class="social-title" data-translate="bonus-spins">Get Bonus Spins!</div>
+            <div class="social-buttons">
+                <button class="social-btn" id="telegramBtn" onclick="claimSocialBonus('telegram')" data-translate="telegram-bonus">
+                    📱 Telegram +25
+                </button>
+                <button class="social-btn" id="instagramBtn" onclick="claimSocialBonus('instagram')" data-translate="instagram-bonus">
+                    📸 Instagram +25
+                </button>
+            </div>
+        </div>
+
+        <div class="game-container">
+            <h1 class="game-title" data-translate="title">🎰 BAR SLOTS PRO</h1>
+            <p class="subtitle" data-translate="subtitle">Spin the reels and win prizes from the bar menu!</p>
+            
+            <div class="bet-controls">
+                <span class="bet-label" data-translate="bet-label">Bet:</span>
+                <div class="bet-options">
+                    <div class="bet-option active" data-bet="1" onclick="setBet(1)">
+                        <div style="display: flex; align-items: center; gap: 3px;">
+                            <div class="owl-coin">🦉</div> 1
+                        </div>
+                        <div class="bet-multiplier">×1</div>
+                    </div>
+                    <div class="bet-option" data-bet="5" onclick="setBet(5)">
+                        <div style="display: flex; align-items: center; gap: 3px;">
+                            <div class="owl-coin">🦉</div> 5
+                        </div>
+                        <div class="bet-multiplier">×2</div>
+                    </div>
+                    <div class="bet-option" data-bet="10" onclick="setBet(10)">
+                        <div style="display: flex; align-items: center; gap: 3px;">
+                            <div class="owl-coin">🦉</div> 10
+                        </div>
+                        <div class="bet-multiplier">×5</div>
+                    </div>
+                    <div class="bet-option" data-bet="25" onclick="setBet(25)">
+                        <div style="display: flex; align-items: center; gap: 3px;">
+                            <div class="owl-coin">🦉</div> 25
+                        </div>
+                        <div class="bet-multiplier">×10</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-showcase">
+                <div class="menu-item" data-name-en="Beer" data-name-ru="Пиво" data-name-ka="ლუდი">🍺</div>
+                <div class="menu-item" data-name-en="Cocktail" data-name-ru="Коктейль" data-name-ka="კოკტეილი">🍸</div>
+                <div class="menu-item" data-name-en="Shot" data-name-ru="Шот" data-name-ka="შოთი">🥃</div>
+                <div class="menu-item" data-name-en="Fries" data-name-ru="Фри" data-name-ka="ხახვი">🍟</div>
+                <div class="menu-item" data-name-en="Burger" data-name-ru="Бургер" data-name-ka="ბურგერი">🍔</div>
+                <div class="menu-item" data-name-en="Wings" data-name-ru="Крылышки" data-name-ka="ფრთები">🍗</div>
+                <div class="menu-item" data-name-en="Snack" data-name-ru="Закуска" data-name-ka="საჭმელი">🥨</div>
+            </div>
+
+            <div class="slots-container">
+                <div class="slot-reel" id="reel1">🍺</div>
+                <div class="slot-reel" id="reel2">🍸</div>
+                <div class="slot-reel" id="reel3">🥃</div>
+            </div>
+
+            <div class="controls">
+                <button class="spin-button" id="spinBtn" onclick="spin()" data-translate="spin-btn">
+                    SPIN REELS
+                </button>
+            </div>
+
+            <div class="info-panel">
+                <div class="info-item">
+                    <div class="info-label" data-translate="current-bet">Current Bet</div>
+                    <div class="info-value">
+                        <div class="owl-coin" style="display: inline-block; width: 16px; height: 16px; font-size: 10px;">🦉</div> 
+                        <span id="currentBet">1</span>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label" data-translate="total-wins">Total Wins</div>
+                    <div class="info-value" id="totalWins">0</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label" data-translate="last-prize">Last Prize</div>
+                    <div class="info-value" id="lastPrize">-</div>
+                </div>
+            </div>
+
+            <div class="message info" id="message" data-translate="initial-message">
+                🎁 You have 3 FREE spins to start!<br>
+                💰 $1 = 3 Bar-Coins
+            </div>
+        </div>
+    </main>
+
+    <div class="purchase-modal" id="purchaseModal">
+        <div class="purchase-content">
+            <h2 class="purchase-title" data-translate="purchase-title">Buy Bar-Coins</h2>
+            <p data-translate="purchase-description">Choose your coin package and start playing!</p>
+            
+            <div class="coin-packages">
+                <div class="coin-package" onclick="selectPackage(1, 3)" data-package="starter">
+                    <div class="package-coins">
+                        <div class="owl-coin">🦉</div> 3
+                    </div>
+                    <div class="package-price">$1</div>
+                    <div class="package-bonus" data-translate="starter-pack">Starter Pack</div>
+                </div>
+                
+                <div class="coin-package popular" onclick="selectPackage(5, 18)" data-package="popular">
+                    <div class="package-coins">
+                        <div class="owl-coin">🦉</div> 18
+                    </div>
+                    <div class="package-price">$5</div>
+                    <div class="package-bonus" data-translate="popular-pack">+3 Bonus Coins!</div>
+                </div>
+                
+                <div class="coin-package" onclick="selectPackage(10, 40)" data-package="premium">
+                    <div class="package-coins">
+                        <div class="owl-coin">🦉</div> 40
+                    </div>
+                    <div class="package-price">$10</div>
+                    <div class="package-bonus" data-translate="premium-pack">+10 Bonus Coins!</div>
+                </div>
+            </div>
+
+            <div class="payment-form" id="paymentForm" style="display: none;">
+                <h3 data-translate="payment-details">Payment Details</h3>
+                <div class="form-group">
+                    <label class="form-label" data-translate="card-number">Card Number</label>
+                    <input type="text" class="form-input" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" data-translate="expiry-date">Expiry Date</label>
+                        <input type="text" class="form-input" id="expiryDate" placeholder="MM/YY" maxlength="5">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" data-translate="cvv">CVV</label>
+                        <input type="text" class="form-input" id="cvv" placeholder="123" maxlength="3">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" data-translate="card-holder">Card Holder</label>
+                    <input type="text" class="form-input" id="cardHolder" placeholder="John Smith">
+                </div>
+                
+                <div class="payment-buttons">
+                    <button class="btn btn-primary" onclick="processPurchase()" data-translate="complete-purchase">
+                        Complete Purchase
+                    </button>
+                    <button class="btn btn-secondary" onclick="closePurchaseModal()" data-translate="cancel">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+            
+            <div class="payment-buttons" id="packageButtons">
+                <button class="btn btn-secondary" onclick="closePurchaseModal()" data-translate="close">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="prize-popup" id="prizePopup">
+        <div class="prize-content">
+            <div class="prize-icon" id="prizeIcon">🎉</div>
+            <h2 class="prize-title" id="prizeTitle" data-translate="jackpot">JACKPOT!</h2>
+            <p class="prize-text" id="prizeText" data-translate="congratulations">Congratulations on your win!</p>
+            <div class="coupon-code">
+                <strong data-translate="coupon">Coupon: #<span id="couponCode">WIN123</span></strong><br>
+                <small data-translate="show-bartender">Show this code to the bartender to claim your prize</small>
+            </div>
+            <button class="close-popup" onclick="closePrizePopup()" data-translate="claim-prize">CLAIM PRIZE</button>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-text">
+            Made with <span class="heart-icon">❤️</span> from Georgia
+        </div>
+    </footer>
+
+    <script>
+        // Translations
+        const translations = {
+            en: {
+                title: "🎰 BAR SLOTS PRO",
+                subtitle: "Spin the reels and win prizes from the bar menu!",
+                "buy-coins": "Buy Coins",
+                "coin-balance": "Bar-Coins",
+                "bet-label": "Bet:",
+                "spin-btn": "SPIN REELS",
+                "current-bet": "Current Bet",
+                "total-wins": "Total Wins", 
+                "last-prize": "Last Prize",
+                "initial-message": "🎁 You have 3 FREE spins to start!<br>💰 $1 = 3 Bar-Coins",
+                "free-spins": "🎁 First 3 spins are FREE! Start playing now!",
+                "bonus-spins": "Get Bonus Spins!",
+                "telegram-bonus": "📱 Telegram +25",
+                "instagram-bonus": "📸 Instagram +25",
+                "purchase-title": "Buy Bar-Coins",
+                "purchase-description": "Choose your coin package and start playing!",
+                "starter-pack": "Starter Pack",
+                "popular-pack": "+3 Bonus Coins!",
+                "premium-pack": "+10 Bonus Coins!",
+                "payment-details": "Payment Details",
+                "card-number": "Card Number",
+                "expiry-date": "Expiry Date",
+                "cvv": "CVV",
+                "card-holder": "Card Holder",
+                "complete-purchase": "Complete Purchase",
+                "cancel": "Cancel",
+                "close": "Close",
+                jackpot: "🎰 JACKPOT! 🎰",
+                congratulations: "Congratulations on your win!",
+                coupon: "Coupon: #",
+                "show-bartender": "Show this code to the bartender to claim your prize",
+                "claim-prize": "CLAIM PRIZE",
+                spinning: "SPINNING...",
+                "insufficient-coins": "❌ Insufficient coins! Buy more to continue playing.",
+                "coins-purchased": "🎉 Coins purchased successfully! Happy spinning!",
+                "reels-spinning": "🎰 Reels are spinning... Luck is on your side!",
+                "win-message": "🎉 <strong>WIN!</strong> 🎉<br>You won: ",
+                "lose-near-miss": "😮 So close to victory! Try again!",
+                "lose-regular": "🎲 No luck... Fortune awaits in the next spin!",
+                "social-claimed": "✅ Bonus claimed! +25 spins added!",
+                "no-free-spins": "❌ No free spins left! Buy coins to continue."
+            },
+            ru: {
+                title: "🎰 СЛОТЫ БАРА ПРО",
+                subtitle: "Крути барабаны и выигрывай призы из меню бара!",
+                "buy-coins": "Купить Монеты",
+                "coin-balance": "Бар-Коины",
+                "bet-label": "Ставка:",
+                "spin-btn": "КРУТИТЬ БАРАБАНЫ",
+                "current-bet": "Текущая Ставка",
+                "total-wins": "Выигрыши",
+                "last-prize": "Последний",
+                "initial-message": "🎁 У вас есть 3 БЕСПЛАТНЫХ вращения!<br>💰 $1 = 3 Бар-Коина",
+                "free-spins": "🎁 Первые 3 вращения БЕСПЛАТНО! Начните играть сейчас!",
+                "bonus-spins": "Получите бонусные вращения!",
+                "telegram-bonus": "📱 Телеграм +25",
+                "instagram-bonus": "📸 Инстаграм +25",
+                "purchase-title": "Купить Бар-Коины",
+                "purchase-description": "Выберите пакет монет и начните играть!",
+                "starter-pack": "Стартовый Пакет",
+                "popular-pack": "+3 Бонусные Монеты!",
+                "premium-pack": "+10 Бонусных Монет!",
+                "payment-details": "Детали Платежа",
+                "card-number": "Номер Карты",
+                "expiry-date": "Срок Действия",
+                "cvv": "CVV",
+                "card-holder": "Владелец Карты",
+                "complete-purchase": "Завершить Покупку",
+                "cancel": "Отмена",
+                "close": "Закрыть",
+                jackpot: "🎰 ДЖЕКПОТ! 🎰",
+                congratulations: "Поздравляем с выигрышем!",
+                coupon: "Купон: #",
+                "show-bartender": "Предъявите этот код бармену для получения приза",
+                "claim-prize": "ЗАБРАТЬ ПРИЗ",
+                spinning: "КРУТИТСЯ...",
+                "insufficient-coins": "❌ Недостаточно монет! Купите еще чтобы продолжить игру.",
+                "coins-purchased": "🎉 Монеты успешно куплены! Удачного вращения!",
+                "reels-spinning": "🎰 Барабаны крутятся... Удача на вашей стороне!",
+                "win-message": "🎉 <strong>ВЫИГРЫШ!</strong> 🎉<br>Вы выиграли: ",
+                "lose-near-miss": "😮 Так близко к победе! Попробуйте еще раз!",
+                "lose-regular": "🎲 Не повезло... Удача ждет в следующем вращении!",
+                "social-claimed": "✅ Бонус получен! +25 вращений добавлено!",
+                "no-free-spins": "❌ Бесплатных вращений не осталось! Купите монеты для продолжения."
+            },
+            ka: {
+                title: "🎰 ბარის სლოტები პრო",
+                subtitle: "ტრიალეთ ბარაბნები და მოიგეთ პრიზები ბარის მენიუდან!",
+                "buy-coins": "მონეტების ყიდვა",
+                "coin-balance": "ბარ-მონეტები",
+                "bet-label": "ფსონი:",
+                "spin-btn": "ბარაბნების ტრიალი",
+                "current-bet": "მიმდინარე ფსონი",
+                "total-wins": "მოგებები",
+                "last-prize": "ბოლო",
+                "initial-message": "🎁 თქვენ გაქვთ 3 უფასო ტრიალი!<br>💰 $1 = 3 ბარ-მონეტა",
+                "free-spins": "🎁 პირველი 3 ტრიალი უფასოა! დაიწყეთ თამაში ახლავე!",
+                "bonus-spins": "მიიღეთ ბონუს ტრიალები!",
+                "telegram-bonus": "📱 ტელეგრამი +25",
+                "instagram-bonus": "📸 ინსტაგრამი +25",
+                "purchase-title": "ბარ-მონეტების ყიდვა",
+                "purchase-description": "აირჩიეთ მონეტების პაკეტი და დაიწყეთ თამაში!",
+                "starter-pack": "საწყისი პაკეტი",
+                "popular-pack": "+3 ბონუს მონეტა!",
+                "premium-pack": "+10 ბონუს მონეტა!",
+                "payment-details": "გადახდის დეტალები",
+                "card-number": "ბარათის ნომერი",
+                "expiry-date": "ვადის გასვლა",
+                "cvv": "CVV",
+                "card-holder": "ბარათის მფლობელი",
+                "complete-purchase": "ყიდვის დასრულება",
+                "cancel": "გაუქმება",
+                "close": "დახურვა",
+                jackpot: "🎰 ჯეკპოტი! 🎰",
+                congratulations: "გილოცავთ მოგებას!",
+                coupon: "კუპონი: #",
+                "show-bartender": "აჩვენეთ ეს კოდი ბარმენს პრიზის მისაღებად",
+                "claim-prize": "პრიზის აღება",
+                spinning: "ტრიალდება...",
+                "insufficient-coins": "❌ არასაკმარისი მონეტები! იყიდეთ მეტი თამაშის გასაგრძელებლად.",
+                "coins-purchased": "🎉 მონეტები წარმატებით იყიდება! იღბლიანი ტრიალი!",
+                "reels-spinning": "🎰 ბარაბნები ტრიალდება... იღბალი თქვენს მხარეზეა!",
+                "win-message": "🎉 <strong>მოგება!</strong> 🎉<br>თქვენ მოიგეთ: ",
+                "lose-near-miss": "😮 ძალიან ახლოს ხართ მოგებასთან! სცადეთ კიდევ ერთხელ!",
+                "lose-regular": "🎲 არ გაგიმართლათ... იღბალი მომდევნო ტრიალშია!",
+                "social-claimed": "✅ ბონუსი მიღებულია! +25 ტრიალი დაემატა!",
+                "no-free-spins": "❌ უფასო ტრიალები აღარ დარჩა! იყიდეთ მონეტები გაგრძელებისთვის."
+            }
+        };
+
+        // Prize names in different languages
+        const prizeNames = {
+            en: {
+                '🍺': 'Beer of your choice',
+                '🍸': 'House signature cocktail',
+                '🥃': 'Shot of your choice',
+                '🍟': 'Portion of french fries',
+                '🍔': 'Burger from menu',
+                '🍗': 'Chicken wings portion',
+                '🥨': 'House special snack'
+            },
+            ru: {
+                '🍺': 'Кружка пива на выбор',
+                '🍸': 'Фирменный коктейль дома',
+                '🥃': 'Шот на выбор',
+                '🍟': 'Порция картофеля фри',
+                '🍔': 'Бургер из меню',
+                '🍗': 'Порция куриных крылышек',
+                '🥨': 'Фирменная закуска'
+            },
+            ka: {
+                '🍺': 'ლუდი თქვენი არჩევით',
+                '🍸': 'სახლის ფირმენი კოკტეილი',
+                '🥃': 'შოთი თქვენი არჩევით',
+                '🍟': 'ხახვის პორცია',
+                '🍔': 'ბურგერი მენიუდან',
+                '🍗': 'ქათმის ფრთების პორცია',
+                '🥨': 'სახლის სპეციალური საჭმელი'
+            }
+        };
+
+        // Game variables
+        const symbols = ['🍺', '🍸', '🥃', '🍟', '🍔', '🍗', '🥨'];
+        const betMultipliers = {1: 1, 5: 2, 10: 5, 25: 10};
+        
+        let currentLang = 'en';
+        let coinBalance = 3; // Start with 3 free spins
+        let freeSpins = 3;
+        let currentBet = 1;
+        let totalWins = 0;
+        let isSpinning = false;
+        let selectedPackage = null;
+        let socialBonuses = {
+            telegram: false,
+            instagram: false
+        };
+
+        // Language switching
+        function switchLanguage(lang) {
+            currentLang = lang;
+            
+            // Update active language button
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.lang === lang) {
+                    btn.classList.add('active');
+                }
+            });
+
+            // Update all translatable elements
+            document.querySelectorAll('[data-translate]').forEach(element => {
+                const key = element.dataset.translate;
+                if (translations[lang] && translations[lang][key]) {
+                    element.innerHTML = translations[lang][key];
+                }
+            });
+
+            // Update menu item tooltips
+            document.querySelectorAll('.menu-item').forEach(item => {
+                const nameKey = `data-name-${lang}`;
+                if (item.hasAttribute(nameKey)) {
+                    item.setAttribute('data-name', item.getAttribute(nameKey));
+                }
+            });
+
+            // Update document language
+            document.documentElement.lang = lang;
+        }
+
+        // Initialize language system
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                switchLanguage(btn.dataset.lang);
+            });
+        });
+
+        // Social bonus system
+        function claimSocialBonus(platform) {
+            if (socialBonuses[platform]) return;
+            
+            // Simulate opening social media (in real app, this would open actual links)
+            const urls = {
+                telegram: 'https://t.me/your_channel',
+                instagram: 'https://instagram.com/your_account'
+            };
+            
+            // Open social media in new tab
+            window.open(urls[platform], '_blank');
+            
+            // Add bonus coins after a short delay (simulating subscription)
+            setTimeout(() => {
+                socialBonuses[platform] = true;
+                coinBalance += 25;
+                
+                // Update button to show claimed status
+                const btn = document.getElementById(platform + 'Btn');
+                btn.classList.add('claimed');
+                btn.innerHTML = '✅ ' + btn.innerHTML.split(' ')[1] + ' Claimed';
+                btn.onclick = null;
+                
+                // Show success message
+                const messageDiv = document.getElementById('message');
+                messageDiv.className = 'message win';
+                messageDiv.textContent = translations[currentLang]['social-claimed'];
+                
+                setTimeout(() => {
+                    messageDiv.className = 'message info';
+                    messageDiv.innerHTML = translations[currentLang]['initial-message'];
+                }, 3000);
+                
+                updateDisplay();
+            }, 2000);
+        }
+
+        // Bet management
+        function setBet(amount) {
+            currentBet = amount;
+            
+            // Update active bet button
+            document.querySelectorAll('.bet-option').forEach(btn => {
+                btn.classList.remove('active');
+                if (parseInt(btn.dataset.bet) === amount) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            updateDisplay();
+        }
+
+        // Purchase system
+        function showPurchaseModal() {
+            document.getElementById('purchaseModal').style.display = 'flex';
+        }
+
+        function closePurchaseModal() {
+            document.getElementById('purchaseModal').style.display = 'none';
+            document.getElementById('paymentForm').style.display = 'none';
+            document.getElementById('packageButtons').style.display = 'flex';
+            selectedPackage = null;
+            
+            // Clear selected packages
+            document.querySelectorAll('.coin-package').forEach(pkg => {
+                pkg.classList.remove('selected');
+            });
+        }
+
+        function selectPackage(price, coins) {
+            selectedPackage = {price, coins};
+            
+            // Update selected package visual
+            document.querySelectorAll('.coin-package').forEach(pkg => {
+                pkg.classList.remove('selected');
+            });
+            event.target.closest('.coin-package').classList.add('selected');
+            
+            // Show payment form
+            document.getElementById('paymentForm').style.display = 'block';
+            document.getElementById('packageButtons').style.display = 'none';
+        }
+
+        function processPurchase() {
+            if (!selectedPackage) return;
+            
+            // Simulate payment processing
+            const cardNumber = document.getElementById('cardNumber').value;
+            const expiryDate = document.getElementById('expiryDate').value;
+            const cvv = document.getElementById('cvv').value;
+            const cardHolder = document.getElementById('cardHolder').value;
+            
+            if (!cardNumber || !expiryDate || !cvv || !cardHolder) {
+                alert('Please fill in all payment details');
+                return;
+            }
+            
+            // Add coins to balance
+            coinBalance += selectedPackage.coins;
+            updateDisplay();
+            
+            // Show success message
+            const messageDiv = document.getElementById('message');
+            messageDiv.className = 'message win';
+            messageDiv.textContent = translations[currentLang]['coins-purchased'];
+            
+            setTimeout(() => {
+                messageDiv.className = 'message info';
+                messageDiv.innerHTML = translations[currentLang]['initial-message'];
+            }, 4000);
+            
+            // Close modal
+            closePurchaseModal();
+            
+            // Clear form
+            document.getElementById('cardNumber').value = '';
+            document.getElementById('expiryDate').value = '';
+            document.getElementById('cvv').value = '';
+            document.getElementById('cardHolder').value = '';
+        }
+
+        // Card number formatting
+        document.getElementById('cardNumber')?.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+            let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+            e.target.value = formattedValue;
+        });
+
+        // Expiry date formatting
+        document.getElementById('expiryDate')?.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length >= 2) {
+                value = value.substring(0, 2) + '/' + value.substring(2, 4);
+            }
+            e.target.value = value;
+        });
+
+        // CVV formatting
+        document.getElementById('cvv')?.addEventListener('input', function(e) {
+            e.target.value = e.target.value.replace(/\D/g, '').substring(0, 3);
+        });
+
+        // Game functions
+        function updateDisplay() {
+            document.getElementById('coinBalance').textContent = coinBalance;
+            document.getElementById('currentBet').textContent = currentBet;
+            document.getElementById('totalWins').textContent = totalWins;
+        }
+
+        function getRandomSymbol() {
+            return symbols[Math.floor(Math.random() * symbols.length)];
+        }
+
+        function generateCouponCode() {
+            return 'WIN' + Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+        }
+
+        function createConfetti() {
+            const confettiSymbols = ['🎉', '✨', '🎊', '⭐', '💫', '🌟', '🦉'];
+            const colors = ['#ffd700', '#ff6b35', '#d4af37', '#28a745', '#20c997', '#f4a261'];
+            
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.color = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.textContent = confettiSymbols[Math.floor(Math.random() * confettiSymbols.length)];
+                    confetti.style.animationDelay = Math.random() * 2 + 's';
+                    confetti.style.animationDuration = (Math.random() * 2 + 3) + 's';
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 5000);
+                }, i * 60);
+            }
+        }
+
+        function showPrizePopup(symbol, winAmount) {
+            const popup = document.getElementById('prizePopup');
+            const icon = document.getElementById('prizeIcon');
+            const title = document.getElementById('prizeTitle');
+            const text = document.getElementById('prizeText');
+            const coupon = document.getElementById('couponCode');
+            
+            icon.textContent = symbol;
+            title.textContent = translations[currentLang].jackpot;
+            text.innerHTML = `${translations[currentLang].congratulations}<br><strong style="font-size: 1.2em;">${prizeNames[currentLang][symbol]}</strong><br><br>🦉 Won ${winAmount} coins!`;
+            coupon.textContent = generateCouponCode();
+            
+            popup.style.display = 'flex';
+            createConfetti();
+            
+            // Sound effect
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+                oscillator.frequency.exponentialRampToValueAtTime(400, audioContext.currentTime + 0.3);
+                gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.3);
+            } catch (e) {
+                console.log('Audio not supported');
+            }
+        }
+
+        function closePrizePopup() {
+            document.getElementById('prizePopup').style.display = 'none';
+        }
+
+        function spin() {
+            if (isSpinning) return;
+            
+            // Check if player has coins
+            if (coinBalance < currentBet) {
+                const messageDiv = document.getElementById('message');
+                messageDiv.className = 'message lose';
+                messageDiv.textContent = coinBalance === 0 ? 
+                    translations[currentLang]['no-free-spins'] : 
+                    translations[currentLang]['insufficient-coins'];
+                
+                setTimeout(() => {
+                    messageDiv.className = 'message info';
+                    messageDiv.innerHTML = translations[currentLang]['initial-message'];
+                }, 3000);
+                return;
+            }
+            
+            isSpinning = true;
+            coinBalance -= currentBet;
+            
+            const spinBtn = document.getElementById('spinBtn');
+            const message = document.getElementById('message');
+            const reels = [
+                document.getElementById('reel1'),
+                document.getElementById('reel2'),
+                document.getElementById('reel3')
+            ];
+
+            spinBtn.disabled = true;
+            spinBtn.textContent = translations[currentLang].spinning;
+            
+            // Remove previous effects
+            reels.forEach(reel => {
+                reel.classList.remove('winner');
+                reel.classList.add('spinning');
+            });
+
+            message.className = 'message info';
+            message.textContent = translations[currentLang]['reels-spinning'];
+
+            // Determine result (10% win chance)
+            const isWin = Math.random() < 0.10;
+            let results;
+            
+            if (isWin) {
+                const winSymbol = getRandomSymbol();
+                results = [winSymbol, winSymbol, winSymbol];
+            } else {
+                results = [getRandomSymbol(), getRandomSymbol(), getRandomSymbol()];
+                while (results[0] === results[1] && results[1] === results[2]) {
+                    results[2] = getRandomSymbol();
+                }
+            }
+
+            // Spinning animation with different speeds
+            const spinDurations = [1500, 2000, 2500];
+            
+            reels.forEach((reel, index) => {
+                let spinCount = 0;
+                const spinInterval = setInterval(() => {
+                    reel.textContent = getRandomSymbol();
+                    spinCount++;
+                    
+                    if (spinCount * 50 >= spinDurations[index]) {
+                        clearInterval(spinInterval);
+                        reel.classList.remove('spinning');
+                        reel.textContent = results[index];
+                        
+                        if (index === 2) {
+                            setTimeout(() => finalizeSpin(results, reels, message, spinBtn), 300);
+                        }
+                    }
+                }, 50);
+            });
+        }
+
+        function finalizeSpin(results, reels, message, spinBtn) {
+            const isWin = results[0] === results[1] && results[1] === results[2];
+            
+            if (isWin) {
+                const winAmount = currentBet * betMultipliers[currentBet];
+                coinBalance += winAmount;
+                totalWins++;
+                
+                reels.forEach(reel => reel.classList.add('winner'));
+                message.className = 'message win';
+                message.innerHTML = translations[currentLang]['win-message'] + prizeNames[currentLang][results[0]] + '!';
+                document.getElementById('lastPrize').textContent = results[0];
+                
+                setTimeout(() => showPrizePopup(results[0], winAmount), 1200);
+            } else {
+                message.className = 'message lose';
+                const nearMiss = (results[0] === results[1] || results[1] === results[2] || results[0] === results[2]);
+                message.textContent = nearMiss ? 
+                    translations[currentLang]['lose-near-miss'] : 
+                    translations[currentLang]['lose-regular'];
+            }
+
+            spinBtn.disabled = false;
+            spinBtn.textContent = translations[currentLang]['spin-btn'];
+
+            updateDisplay();
+            isSpinning = false;
+        }
+
+        // Initialize game
+        updateDisplay();
+        switchLanguage('en');
+
+        // Prevent zoom on double tap (mobile)
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function (event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+
+        // Menu items animation on load
+        window.addEventListener('load', function() {
+            const menuItems = document.querySelectorAll('.menu-item');
+            menuItems.forEach((item, index) => {
+                setTimeout(() => {
+                    item.style.transform = 'scale(1.1)';
+                    setTimeout(() => {
+                        item.style.transform = 'scale(1)';
+                    }, 150);
+                }, index * 80);
+            });
+        });
+
+        // Add global functions
+        window.setBet = setBet;
+        window.showPurchaseModal = showPurchaseModal;
+        window.closePurchaseModal = closePurchaseModal;
+        window.selectPackage = selectPackage;
+        window.processPurchase = processPurchase;
+        window.spin = spin;
+        window.closePrizePopup = closePrizePopup;
+        window.claimSocialBonus = claimSocialBonus;
+    </script>
+</body>
+</html>
